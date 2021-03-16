@@ -1,0 +1,53 @@
+Creating First Job:
+1. Click on New Item.
+2. Select Free Style for simple Jenkins Job
+3. Skip Source Code Management, Build Environment for simplicity
+4. Select Build Triggers and check Build periodically and schedule for 1 min :: For Building after 1 min :: (* * * * *)
+4. Goto Build Step and select Execute Shell from DropDown(Add build Step) -- For Linux
+5. Enter commands to execute the program.
+      For eg:
+        cd /home/jibran/Java/
+        sudo javac MyFirstProg.java
+        java MyFirstProg
+6. Run the below command and add the below line to give Jenkins sudo permission:
+        sudo gedit /etc/sudoers
+        jenkins ALL=(ALL) NOPASSWD: ALL
+
+Note* : If still we are facing the permission issues then do the below:
+  chmod 755 jibran
+
+How chmod works:
+
+r(read)            --4
+w(write)           --2
+x(execute)         --1
+-(no permission)   --0
+
+for example ::
+In case of file:  -rw-r--r-- (first letter will -)
+In case of dir :  drw-r--r-- (first letter will d)
+
+So if give permission only for read and execute then :
+    4+1 == 5
+
+chmod 755 -- this means giving all permissions to user and 5 to group and 5 to others
+
+
+--------------------------------------------------------------------------------
+Build after other projects are built:
+
+Create 3 jobs:
+   1. Build       -- Execute shell(Enter -- cd /home/jibran/Java/ and  sudo javac MyFirstProg.java)
+   2. Run         -- Execute shell(Enter -- cd /home/jibran/Java/ and  sudo java MyFirstProg)
+   3. Display     -- Execute shell(Enter --  echo "------Success-----")
+
+
+Goto Run configuration and select - Build after other projects are built and choose Build in the autocomplete
+Goto Display configuration and select - Build after other projects are built and choose Run in the autocomplete
+
+This means that after completing Build job, run job will be triggered and after completing run job , Display job is triggered.
+--------------------------------------------------------------------------------
+Build trigger remotely
+
+Goto configuration of the job and select Build trigger remotely. Give the token there (For eg 12345) and copy the URL mentioned there.
+URL Mentioned :: Jenkins_Home/job/Build/build?token=TOKEN_NAME   =>  http://localhost:8090/job/Build/build?token=12345
